@@ -1,0 +1,35 @@
+# This code displays all even numbers from 1 to any number.
+
+def make_even(number): # Operation
+    
+    # Setup a counter that will end the loop and an empty list that we will add the output to.
+    count = 0
+    even_list = []
+    
+    # Start the loop with a condition to stop the loop. In this case we stop the loop when we have looped as many times as the number given.
+    while count <= int(number):
+        count += 1 # Increment the counter so that we can actually stop.
+        if count % 2 == 0: # If the number we are checking divides evenly by 2 (or, we divide it by two and get no remainder), then we know it is even.
+            even_list.append(count) # If the number is even we add it to our list.
+    
+    # We convert the list to a nicer string by joining the list with ', ' and ending with a period.
+    even_numbers = ', '.join(str(num) for num in even_list) + '.'
+    # We now return our nice string to the 'main' function.
+    return even_numbers
+
+def main(): # Input
+    
+    # First we ask the user for a number.
+    num_in = input("Enter a number and I will tell you all the even numbers from 1 to that number.\n:    ")
+    
+    # We then check if what the user gave us was indeed a number.
+    if not num_in.isnumeric(): 
+        # If we did not get a number we let the user know and recursively restart the program. This can cause issues if the user gives us a lot of bad inputs.
+        print("\nThat is not a number I recognize.\n Please try again.\n")
+        return main()
+    else:
+        # If we did get a real number then we send it off to our make_even function and once we get that back we immediately send it to the output.
+        return make_even(num_in)
+
+# This is the first thing the code executes. It will attempt to print to the console anything it can get as a return out of the 'main' function.
+print(main()) # Output

@@ -1,0 +1,105 @@
+# This program will take an input of two numbers and an operator and do calculations
+
+from random import randint
+
+# This variable will store the user manual for the tool. Triple quotes can be used to make a block string like this:
+documentation = '''
+
+This program takes a string from the user in the format of:
+(number) (operator) (number)
+The program will then use the operator to chose what math operation to do to the numbers.
+Recognized operators are as follows (seperated by commas in the case of multiple symbols for the same operation):
++ = addition
+- = subtraction
+x, X, * = multiplication
+/ = division
+++ = concatenation
+? = will give you a random number in a range between the two entered numbers
+
+Feel free to leave comments @ https://github.com/Ratman457 for additions, complaints, or invitations to Deep Rock Galactic games.
+
+Press ENTER to return to the program.
+'''
+
+# This is the function that gets run by the last line of code. It gets run first.
+def main():
+    # We set a variable equal to the output of a function.
+    usr_in = usr_intake()
+    # Check weather the user wants to know how to use our tool. Here is where we check for a QUIT or HELP input.
+    if usr_in[0] == 'HELP':
+        print(documentation)
+        input()
+        return main()
+    if usr_in[0] == 'QUIT':
+        return
+    # Sterilize after HELP or QUIT because either, by necessity, violate our input sterilization.
+    if len(usr_in) < 3: # Are there enough elements in the list?
+        print("You have something missing there. Don't forget the spaces, thank you.\nPlease try again or consult the HELP documentation.\n")
+        return main()
+    if not usr_in[0].isnumeric() or not usr_in[2].isnumeric(): # Are the first and last parts of the list numbers?
+        print("You have entered a non-number where we expected a number. Don't forget the spaces, thank you.\nPlease try again or consult the HELP documentation.\n")
+        return main()
+    if usr_in[1] not in ['+', '-', 'x', 'X', '*', '/', '++', '?']: # Is the middle element something we can recognise?
+        print("You have entered an invalid operator. Don't forget the spaces, thank you.\nPlease try again or consult the HELP documentation.\n")
+        return main()
+    #If we got this far we can try to pass the bag to out chooser function.
+    result = chooser(usr_in)
+    # When we get that back we can print that out and ask for another round.
+    if input(f"\nThe result of {usr_in[0]} {usr_in[1]} {usr_in[2]} is {result}.\n\nPress ENTER to go again or enter QUIT to stop.\n    ") == 'QUIT':
+        return
+    else:
+        return main()
+
+# Here we ask the user for input.
+def usr_intake():
+    # Take in a string from the user.
+    usr_in = input("Please enter two numbers separated by an operator and spaces.\nEnter HELP to see documentation. Enter QUIT to end the program.\n:    ")
+    # Split it into a list at the space character.
+    in_list = usr_in.split(' ')
+    # Give it back to main().
+    return in_list
+
+# Here we pick what operator function to use.
+def chooser(usr_in):
+    # Here we only care about the operator (the middle element) so split that out.
+    operator = usr_in[1]
+    # Bunch of if's to figure out what you want.
+    if operator == '+':
+        return add(usr_in[0], usr_in[2])
+    if operator == '-':
+        return subtract(usr_in[0], usr_in[2])
+    if operator == 'x' or operator == 'X' or operator == '*': # We set multiple possible inputs for multiplication.
+        return multiply(usr_in[0], usr_in[2])
+    if operator == '/':
+        return divide(usr_in[0], usr_in[2])
+    if operator == '++':
+        return concatenate(usr_in[0], usr_in[2])
+    if operator == '?':
+        return randomly(usr_in[0], usr_in[2])
+
+# These are all the operator functions.
+def add(num1, num2):
+    return int(num1) + int(num2)
+
+def subtract(num1, num2):
+    return int(num1) - int(num2)
+
+def multiply(num1, num2):
+    return int(num1) * int(num2)
+
+def divide(num1, num2):
+    # Division, of course, is a special case and requires an extra check step to prevent divide by zero errors.
+    if int(num2) > 0:
+        return int(num1) / int(num2)
+    else: 
+        return 'impossible to calculate'
+
+def concatenate(num1, num2): # Just smush the numbers together.
+    return num1 + num2
+
+def randomly(num1, num2):
+    return randint(int(num1), int(num2))
+
+# This line actually start the whole thing. I changed up the order of the functions to be more 'readable', but this line has to be at the bottom.
+main()
+

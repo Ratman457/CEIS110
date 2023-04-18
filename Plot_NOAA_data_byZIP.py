@@ -12,6 +12,8 @@ import re
 import pandas
 import matplotlib.pyplot as plt
 
+NOMINATIM_USERNAME = 'CEIS110FinalProject'
+
 def main():
     
     # Asks user for zipcode
@@ -195,7 +197,7 @@ def get_zipcode(): # Get and validate a zipcode from the user, return a valid zi
         return get_zipcode()
     else:
         print(f'{zipcode} is a valid ZIP code.\nGeting details on chosen location.')
-        geolocator = Nominatim(user_agent="CEIS110Project")
+        geolocator = Nominatim(user_agent=NOMINATIM_USERNAME)
         location = geolocator.geocode(int(zipcode))
         print(f'Details about ZIP code: {location}')
         ans = input('Is this the correct location? (Yes/No)\n:    ')
